@@ -52,11 +52,17 @@ let title = post.Title
 
 <style>
   .post-title {
-    margin: 0;
+    margin: 0, 2em;
     padding: 0.2rem 0;
     font-size: 2rem;
     font-weight: 700;
     color: var(--fg);
+    padding: 0.5em;/*文字周りの余白*/
+    line-height: 1.3;/*行高*/
+    vertical-align: middle;
+    border-radius: 25px 25px 25px 25px;/*左側の角を丸く*/
+    background: -webkit-linear-gradient(to right, #c0c0ff, #eee);
+    background: linear-gradient(to right, #c0c0c8, #eee);
   }
   .post-title a {
     font-size: 1.6rem;

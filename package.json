@@ -32,10 +32,12 @@
     "metascraper-description": "^5.34.4",
     "metascraper-image": "^5.34.4",
     "metascraper-title": "^5.34.4",
+    "nvm": "^0.0.4",
     "prismjs": "^1.29.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "sharp": "^0.32.4"
+    "sharp": "^0.32.4",
+    "symbol-tree": "^3.2.4"
   },
   "devDependencies": {
     "@nrwl/nx-cloud": "^15.0.2",
