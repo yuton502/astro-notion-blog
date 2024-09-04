@@ -250,7 +250,7 @@ export const isAmazonURL = (url: URL): boolean => {
 }
 
 export const isYouTubeURL = (url: URL): boolean => {
-  if (['www.youtube.com', 'youtube.com', 'youtu.be'].includes(url.hostname)) {
+  if (['www.youtube.com', 'youtube.com', 'youtu.be'].includes(url?.hostname)) {
     return true
   }
   return false
