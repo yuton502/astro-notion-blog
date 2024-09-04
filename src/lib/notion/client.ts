@@ -64,8 +64,9 @@ let dbCache: Database | null = null
 
 const numberOfRetry = 2
 
-export async function getAllPosts(): Promise<Post[]> {
-  if (postsCache !== null) {
+export async function getAllPosts(startPageSkipped = true): Promise<Post[]> {
+  if (postsCache !== null && startPageSkipped) {
+    postsCache = postsCache.filter((post) => post.Slug !== 'start-page')
     return Promise.resolve(postsCache)
   }
 
@@ -90,6 +91,10 @@ export async function getAllPosts(): Promise<Post[]> {
     sorts: [
       {
         property: 'Date',
+        direction: 'descending',
+      },
+      {
+        property: 'UpdateDate',
         direction: 'descending',
       },
     ],
@@ -130,6 +135,9 @@ export async function getAllPosts(): Promise<Post[]> {
   postsCache = results
     .filter((pageObject) => _validPageObject(pageObject))
     .map((pageObject) => _buildPost(pageObject))
+    if (startPageSkipped) {
+      postsCache = postsCache.filter((post) => post.Slug !== 'start-page')
+    }
   return postsCache
 }
 
@@ -154,7 +162,7 @@ export async function getRankedPosts(pageSize = 10): Promise<Post[]> {
 }
 
 export async function getPostBySlug(slug: string): Promise<Post | null> {
-  const allPosts = await getAllPosts()
+  const allPosts = await getAllPosts(false)
   return allPosts.find((post) => post.Slug === slug) || null
 }
 

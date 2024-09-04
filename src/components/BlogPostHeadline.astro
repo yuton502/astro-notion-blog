@@ -5,7 +5,7 @@ export interface Props {
   heading: string
   blocks: interfaces.Block[]
 }
-const { heading, blocks } = Astro.props
+const { blocks } = Astro.props
 // Notion側にTableOfContentsが存在しない場合でも作れるように仮想のアイテムを作成
 const dummyBlock: Block = {
   Id: "",

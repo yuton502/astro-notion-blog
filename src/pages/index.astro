@@ -5,6 +5,8 @@ import {
   getRankedPosts,
   getAllTags,
   getNumberOfPages,
+  getPostBySlug,
+  getAllBlocksByBlockId,
 } from '../lib/notion/client.ts'
 import Layout from '../layouts/Layout.astro'
 import NoContents from '../components/NoContents.astro'
@@ -19,17 +21,29 @@ import Pagination from '../components/Pagination.astro'
 import BlogPostsLink from '../components/BlogPostsLink.astro'
 import BlogTagsLink from '../components/BlogTagsLink.astro'
 import styles from '../styles/blog.module.css'
+import PostBody from '../components/PostBody.astro'
 
-const [posts, rankedPosts, tags, numberOfPages] = await Promise.all([
+const startPost = await getPostBySlug('start-page')
+if (!startPost) {
+  throw new Error('Post not found. slug: ${slug}')
+}
+
+const [posts, rankedPosts, tags, numberOfPages, blocks] = await Promise.all([
   getPosts(NUMBER_OF_POSTS_PER_PAGE),
   getRankedPosts(),
   getAllTags(),
   getNumberOfPages(),
+  getAllBlocksByBlockId(startPost.PageId),
 ])
 ---
 
 <Layout>
   <div slot="main" class={styles.main}>
+    {
+      <div class={styles.post} key={startPost.Slug}>
+        <PostBody blocks={blocks} />
+      </div>
+    }
     {
       posts.length === 0 ? (
         <NoContents contents={posts} />

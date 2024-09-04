@@ -9,13 +9,13 @@ export interface Props {
 const { post } = Astro.props
 ---
 
-<div class="post-update-date">
-  {post.UpdateDate ? <span>更新日：{getDateStr(post.UpdateDate)}</span> : ''}
-</div>
+<span class="post-update-date">
+  {post.UpdateDate && getDateStr(post.UpdateDate) != getDateStr(post.Date) ? <span>更新日：{getDateStr(post.UpdateDate)}</span> : ''}
+</span>
 
 <style>
   .post-update-date {
-    padding: 0 0 0.3rem;
+    padding: 0 1.5em 0.3rem;
     font-size: 0.9rem;
   }
 </style>
