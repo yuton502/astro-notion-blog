@@ -8,22 +8,29 @@ const notion = new Client({ auth: process.env.NOTION_API_SECRET });
 const getAllPages = async () => {
   const params = {
     database_id: process.env.DATABASE_ID,
-    filter: {
-      and: [
-        {
-          property: 'Published',
-          checkbox: {
-            equals: true,
-          },
+    filter: process.env.DRAFT_PREVIEW
+      ? {
+        property: 'DraftPreview',
+        checkbox: {
+          equals: true,
         },
-        {
-          property: 'Date',
-          date: {
-            on_or_before: new Date().toISOString(),
+      }
+      : {
+        and: [
+          {
+            property: 'Published',
+            checkbox: {
+              equals: true,
+            },
           },
-        },
-      ],
-    },
+          {
+            property: 'Date',
+            date: {
+              on_or_before: new Date().toISOString(),
+            },
+          },
+        ],
+      },
   };
 
   let results = [];
