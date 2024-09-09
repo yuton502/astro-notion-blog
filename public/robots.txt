@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://grizzly-storage-blog.pages.dev/sitemap.xml
