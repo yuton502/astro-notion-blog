@@ -599,7 +599,11 @@ function _buildBlock(blockObject: responses.BlockObject): Block {
           blockObject.video.type === 'file' &&
           blockObject.video.file
         ) {
-          video.External = { Url: blockObject.video.file.url }
+          video.File = { 
+            Type: blockObject.video.type,
+            Url: blockObject.video.file.url,
+            ExpiryTime: blockObject.video.file.expiry_time
+          }
         }
         block.Video = video
       }

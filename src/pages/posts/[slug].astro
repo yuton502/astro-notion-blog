@@ -52,19 +52,20 @@ const [blocks, allPosts, rankedPosts, recentPosts, tags, postsHavingSameTag] =
 
 const fileAtacchedBlocks = extractTargetBlocks('image', blocks)
   .concat(extractTargetBlocks('file', blocks))
+  .concat(extractTargetBlocks('video', blocks))
   .filter((block) => {
     if (!block) {
       return false
     }
-    const imageOrFile = block.Image || block.File
-    return imageOrFile && imageOrFile.File && imageOrFile.File.Url
+    const imageOrFileOrVideo = block.Image || block.File || block.Video
+    return imageOrFileOrVideo && imageOrFileOrVideo.File && imageOrFileOrVideo.File.Url
   })
 
 // Download files
 await Promise.all(
   fileAtacchedBlocks
     .map(async (block) => {
-      const expiryTime = (block.Image || block.File).File.ExpiryTime
+      const expiryTime = (block.Image || block.File || block.Video).File.ExpiryTime
       if (Date.parse(expiryTime) > Date.now()) {
         return Promise.resolve(block)
       }
@@ -74,7 +75,7 @@ await Promise.all(
       promise.then((block) => {
         let url!: URL
         try {
-          url = new URL((block.Image || block.File).File.Url)
+          url = new URL((block.Image || block.File || block.Video).File.Url)
         } catch (err) {
           console.log('Invalid file URL')
           return Promise.reject()

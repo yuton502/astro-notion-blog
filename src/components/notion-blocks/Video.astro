@@ -11,7 +11,12 @@ const { block } = Astro.props
 
 let url: URL
 try {
-  url = new URL(block.Video.External?.Url)
+  if (block.Video?.External) {
+    url = new URL(block.Video.External.Url)
+  }
+  else if (block.Video?.File) {
+    url = new URL(block.Video.File.Url)
+  }
 } catch (err) {
   console.log(err)
 }
@@ -31,9 +36,9 @@ try {
       )      
     }
     {
-      !isYouTubeURL(url) && (block.Video.External) && (
+      !isYouTubeURL(url) && (block.Video?.File) && (
         <iframe 
-          src={block.Video.External.Url}
+          src={url}
           title="Notion video player"
           frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
